@@ -16,6 +16,8 @@ public class CustomStringCalTest {
         //커스텀 성공
         assertThat(c.add("//(\n1(2(3")).isEqualTo(6);
         assertThat(c.add("//*\n1*2*3")).isEqualTo(6);
+        assertThat(c.add("//(\n1:2(3")).isEqualTo(6);
+        assertThat(c.add("//(\n")).isEqualTo(0);
 
     }
 
