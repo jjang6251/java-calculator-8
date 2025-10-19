@@ -9,12 +9,7 @@ public class Application {
         String input = Console.readLine();
         StringCalculator c = new StringCalculator();
 
-        try {
-            int result = c.add(input);
-            System.out.println("결과 : " + result);
-        } catch (IllegalArgumentException e) {
-            System.out.println("[Error] " + e.getMessage());
-        }
-
+        int result = c.add(input);
+        System.out.println("결과 : " + result);
     }
 }

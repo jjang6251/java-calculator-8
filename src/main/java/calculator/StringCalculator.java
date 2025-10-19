@@ -35,16 +35,24 @@ public class StringCalculator {
 
     private int toInt(String token) {
         try {
-            return Integer.parseInt(token);
+            int n = Integer.parseInt(token);
+            if (n < 0) {
+                throw new IllegalArgumentException("음수는 허용되지 않습니다.");
+            }
+            return n;
         } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("기본 구분자 이외의 구분자가 있습니다");
+            throw new IllegalArgumentException("숫자가 아닌 값이 포함되어 있습니다.");
         }
     }
 
     private int sumTokens(String splitstring, String regex) {
-        String[] tokens = splitstring.split(regex);
+        String[] tokens = splitstring.split(regex, -1);
         int sum = 0;
         for (String x : tokens) {
+            if (x.isEmpty()) {
+                // 입력값이 "1,2,"인 경우
+                throw new IllegalArgumentException("잘못된 형식(빈 값이 포함됨)");
+            }
             sum += toInt(x);
         }
         return sum;
