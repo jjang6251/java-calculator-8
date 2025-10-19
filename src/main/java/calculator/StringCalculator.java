@@ -8,35 +8,29 @@ public class StringCalculator {
             return 0;
         }
         input = input.replace("\\n", "\n");
+        //기본 구분자
+        String regex = "[,:]";
+        String numbers = input;
+
+        //커스텀 구분자
         if (input.startsWith("//")) {
-            String regex = ",|:|";
-            //커스텀 구분자
             int lineIndex = input.indexOf('\n');
             if (lineIndex == -1) {
                 throw new IllegalArgumentException("잘못된 커스텀 구분자 형식");
             }
+
             String separator = input.substring(2, lineIndex);
-            if (separator.length() == 1) {
-                regex += Pattern.quote(separator);
+            if (separator.length() != 1) {
+                throw new IllegalArgumentException("커스텀 구분자는 한 글자여야 합니다.");
             }
-            String numString = input.substring(lineIndex + 1);
-            if (numString.isEmpty()) {
+
+            regex += "|" + Pattern.quote(separator);
+            numbers = input.substring(lineIndex + 1);
+            if (numbers.isEmpty()) {
                 return 0;
             }
-            String[] tokens = numString.split(regex);
-            int result = 0;
-            for (String x : tokens) {
-                result += toInt(x);
-            }
-            return result;
         }
-        // 기본 구분자
-        String[] tokens = input.split("[,:]");
-        int result = 0;
-        for (String x : tokens) {
-            result += toInt(x);
-        }
-        return result;
+        return sumTokens(numbers, regex);
     }
 
     private int toInt(String token) {
@@ -45,5 +39,14 @@ public class StringCalculator {
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("기본 구분자 이외의 구분자가 있습니다");
         }
+    }
+
+    private int sumTokens(String splitstring, String regex) {
+        String[] tokens = splitstring.split(regex);
+        int sum = 0;
+        for (String x : tokens) {
+            sum += toInt(x);
+        }
+        return sum;
     }
 }
