@@ -4,20 +4,28 @@ import java.util.regex.Pattern;
 
 public class StringCalculator {
     public int add(String input) {
-        if(input == null || input.isEmpty()) {
+        if (input == null || input.isEmpty()) {
             return 0;
         }
-        if(input.startsWith("//")) {
+        input = input.replace("\\n", "\n");
+        if (input.startsWith("//")) {
+            String regex = ",|:|";
             //커스텀 구분자
             int lineIndex = input.indexOf('\n');
-            if(lineIndex == -1) {
+            if (lineIndex == -1) {
                 throw new IllegalArgumentException("잘못된 커스텀 구분자 형식");
             }
             String separator = input.substring(2, lineIndex);
-            String numString = input.substring(lineIndex+1);
-            String[] tokens = numString.split(Pattern.quote(separator));
+            if (separator.length() == 1) {
+                regex += Pattern.quote(separator);
+            }
+            String numString = input.substring(lineIndex + 1);
+            if (numString.isEmpty()) {
+                return 0;
+            }
+            String[] tokens = numString.split(regex);
             int result = 0;
-            for(String x : tokens) {
+            for (String x : tokens) {
                 result += toInt(x);
             }
             return result;
@@ -25,7 +33,7 @@ public class StringCalculator {
         // 기본 구분자
         String[] tokens = input.split("[,:]");
         int result = 0;
-        for(String x : tokens) {
+        for (String x : tokens) {
             result += toInt(x);
         }
         return result;

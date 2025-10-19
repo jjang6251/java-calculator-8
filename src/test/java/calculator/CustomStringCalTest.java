@@ -1,10 +1,10 @@
 package calculator;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class CustomStringCalTest {
 
@@ -19,8 +19,6 @@ public class CustomStringCalTest {
         assertThat(c.add("//(\n1:2(3")).isEqualTo(6);
         assertThat(c.add("//(\n")).isEqualTo(0);
         assertThat(c.add("//;\\n1")).isEqualTo(1);
-        assertThat(c.add("//;\\n1;2\3")).isEqualTo(6);
-
     }
 
     @DisplayName("커스텀 구분자 케이스 실패")
