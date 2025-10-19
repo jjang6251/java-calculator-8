@@ -6,6 +6,7 @@ public class StringCalculator {
         if (input == null || input.isEmpty()) {
             return 0;
         }
+        input = input.replace("\\n", "\n");
         //기본 구분자
         String regex = "[,:]";
         String numbers = input;
