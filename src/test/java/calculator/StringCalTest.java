@@ -1,11 +1,10 @@
 package calculator;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 
 public class StringCalTest {
 
@@ -39,6 +38,29 @@ public class StringCalTest {
         assertThatThrownBy(() -> c.add("1/2,3"))
                 .isInstanceOf(IllegalArgumentException.class);
         assertThatThrownBy(() -> c.add("1:2/3"))
+                .isInstanceOf(IllegalArgumentException.class);
+    }
+
+    @DisplayName("비숫자/음수/형식 예외 처리")
+    @Test
+    void 비숫자_음수_형식_예외처리() {
+        StringCalculator c = new StringCalculator();
+
+        assertThatThrownBy(() -> c.add("-1,2,3"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("a,2,3"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("1,2,"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("//1,2,3"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("/1,2,3"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("//)\na)1)2"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("//)\n-1)2)3"))
+                .isInstanceOf(IllegalArgumentException.class);
+        assertThatThrownBy(() -> c.add("//)\n1)2)"))
                 .isInstanceOf(IllegalArgumentException.class);
     }
 }
