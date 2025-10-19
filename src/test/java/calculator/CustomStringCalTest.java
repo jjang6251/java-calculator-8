@@ -18,6 +18,8 @@ public class CustomStringCalTest {
         assertThat(c.add("//*\n1*2*3")).isEqualTo(6);
         assertThat(c.add("//(\n1:2(3")).isEqualTo(6);
         assertThat(c.add("//(\n")).isEqualTo(0);
+        assertThat(c.add("//;\\n1")).isEqualTo(1);
+        assertThat(c.add("//;\\n1;2\3")).isEqualTo(6);
 
     }
 
